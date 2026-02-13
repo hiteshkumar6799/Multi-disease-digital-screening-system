@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account | AI Healthcare</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #0f4c75, #1b6ca8);
+    color: #333;
+}
+
+/* HEADER */
+.header {
+    background: white;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.header h1 {
+    margin: 0;
+    color: #0f4c75;
+}
+
+.header p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #555;
+}
+
+/* MAIN CONTAINER */
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #0f4c75;
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #1b6ca8;
+    outline: none;
+}
+
+/* BUTTONS */
+button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #0f4c75;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #09324e;
+}
+
+.btn-danger {
+    background: #c0392b;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #922b21;
+}
+
+.btn-logout {
+    background: #555;
+    color: white;
+}
+
+.btn-logout:hover {
+    background: #333;
+}
+
+
+.btn-back {
+    background: #34495e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 20px 0;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background: #2c3e50;
+    transform: translateY(-2px);
+}
+
+
+
+/* FLASH */
+.flash {
+    text-align: center;
+    padding: 12px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+.flash.success {
+    background: #eafaf1;
+    color: #27ae60;
+}
+
+.flash.error {
+    background: #fdecea;
+    color: #c0392b;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-content h3 {
+    color: #c0392b;
+}
+
+.modal-content input {
+    margin-top: 15px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    color: white;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .container {
+        margin: 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏥 Account Management Center</h1>
+    <p>Welcome, {{ user }}</p>
+</div>
+
+<div style="text-align:left; padding-left:20px;">
+    <a href="/dashboard" class="btn-back">
+        ⬅ Back to Dashboard
+    </a>
+</div>
+
+
+<div class="container">
+
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="grid">
+
+        
+        <div class="card">
+            <h3>Update Email Address</h3>
+            <form action="/update_email" method="post">
+                <label>New Email</label>
+                <input type="email" name="new_email" required>
+
+                <label>Confirm Password</label>
+                <input type="password" name="password" required>
+
+                <button type="submit" class="btn-primary">Update Email</button>
+            </form>
+        </div>
+
+        
+        <div class="card">
+            <h3>Change Password</h3>
+            <form action="/update_password" method="post">
+                <label>Current Password</label>
+                <input type="password" name="current_password" required>
+
+                <label>New Password</label>
+                <input type="password" name="new_password" required>
+
+                <button type="submit" class="btn-primary">Update Password</button>
+            </form>
+        </div>
+
+        
+        <div class="card">
+            <h3 style="color:#c0392b;">Delete Account</h3>
+            <p style="font-size:13px;color:#777;">
+                This action will permanently delete your account and all prediction history.
+            </p>
+
+            <button onclick="openModal()" class="btn-danger">
+                Delete My Account
+            </button>
+        </div>
+
+    </div>
+
+    
+    <div style="text-align:center; margin-top:40px;">
+        <a href="/logout">
+            <button class="btn-logout">Logout</button>
+        </a>
+    </div>
+
+</div>
+
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h3>⚠ Confirm Account Deletion</h3>
+        <p>This action is permanent and cannot be undone.</p>
+
+        <form action="/delete_account" method="post">
+            <input type="password" name="password" placeholder="Enter password to confirm" required>
+
+            <div style="margin-top:20px;">
+                <button type="submit" class="btn-danger">Confirm Delete</button>
+                <button type="button" onclick="closeModal()" class="btn-primary" style="margin-left:10px;">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="footer">
+    AI Healthcare Screening System • Secure Medical Account Portal
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("deleteModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("deleteModal").style.display = "none";
+}
+</script>
+
+</body>
+</html>

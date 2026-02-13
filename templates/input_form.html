@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Screening Input</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            background: white;
+            width: 520px;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 6px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            border: none;
+            margin: 5px;
+            padding: 8px 14px;
+            cursor: pointer;
+        }
+
+        details {
+            margin: 15px 0;
+            background: #eef3f7;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .note {
+            font-size: 12px;
+            color: gray;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>
+    {% if disease == "diabetes" %} 🩸 Diabetes Screening
+    {% elif disease == "heart" %} ❤️ Heart Disease Screening
+    {% else %} 🧪 Kidney Disease Screening
+    {% endif %}
+</h2>
+
+
+<details>
+    <summary>ℹ️ How do I get these values?</summary>
+
+    {% if disease == "diabetes" %}
+        <ul>
+            <li><b>Pregnancies</b> → Number of times pregnant</li>
+            <li><b>Glucose</b> → Fasting blood sugar test</li>
+            <li><b>Blood Pressure</b> → BP machine (diastolic)</li>
+            <li><b>Skin Thickness</b> → Clinical measurement</li>
+            <li><b>Insulin</b> → Blood insulin test</li>
+            <li><b>BMI(Body Mass Index)</b> → Weight / Height²</li>
+            <li>
+                <b>DPF (Diabetes Pedigree Function)</b> →  
+                A score representing family history of diabetes.  
+                Derived from family medical history; typical values range from 0.3 to 0.8.
+            </li>
+
+            <li><b>Age</b> → Current age</li>
+        </ul>
+
+    {% elif disease == "heart" %}
+        <ul>
+            <li><b>Age</b> → Current age</li>
+            <li><b>Sex</b> → Male = 1, Female = 0</li>
+            <li><b>Chest Pain</b> → Doctor diagnosis (0–3)</li>
+            <li><b>Blood Pressure</b> → BP machine</li>
+            <li><b>Cholesterol</b> → Lipid profile test</li>
+            <li><b>ECG</b> → ECG report</li>
+            <li><b>Max Heart Rate</b> → Stress test</li>
+            <li><b>Exercise Angina</b> → Yes = 1, No = 0</li>
+        </ul>
+
+    {% else %}
+        <ul>
+            <li><b>Blood Urea</b> → Kidney blood test</li>
+            <li><b>Creatinine</b> → Serum creatinine test</li>
+            <li><b>Sodium</b> → Electrolyte test</li>
+            <li><b>Potassium</b> → Electrolyte test</li>
+            <li><b>Hemoglobin</b> → CBC test</li>
+            <li><b>PCV</b> → CBC test</li>
+            <li><b>Sugar</b> → Urine sugar test (Yes=1, No=0)</li>
+            <li><b>Blood Pressure</b> → BP machine</li>
+        </ul>
+    {% endif %}
+</details>
+
+<form action="/predict" method="post">
+    <input type="hidden" name="disease" value="{{ disease }}">
+
+    {% if disease == "diabetes" %}
+        <label>Pregnancies</label>
+        <input type="number" name="pregnancies" placeholder="e.g. 2">
+
+        <label>Glucose (mg/dL)</label>
+        <input type="number" name="glucose" placeholder="e.g. 140">
+
+        <label>Blood Pressure (mmHg)</label>
+        <input type="number" name="bp" placeholder="e.g. 80">
+
+        <label>Skin Thickness (mm)</label>
+        <input type="number" name="skin" placeholder="e.g. 20">
+
+        <label>Insulin (µU/mL)</label>
+        <input type="number" name="insulin" placeholder="e.g. 90">
+
+        <label>BMI</label>
+        <input type="number" step="0.1" name="bmi" placeholder="e.g. 28.5">
+
+        <label>DPF</label>
+        <input type="number" step="0.01" name="dpf" placeholder="e.g. 0.62">
+
+        <label>Age</label>
+        <input type="number" name="age" placeholder="e.g. 45">
+
+    {% elif disease == "heart" %}
+        <label>Age</label>
+        <input type="number" name="age" placeholder="e.g. 55">
+
+        <label>Sex (Male=1, Female=0)</label>
+        <input type="number" name="sex" placeholder="e.g. 1">
+
+        <label>Chest Pain Type (0–3)</label>
+        <input type="number" name="cp" placeholder="e.g. 2">
+
+        <label>Blood Pressure (mmHg)</label>
+        <input type="number" name="bp" placeholder="e.g. 130">
+
+        <label>Cholesterol (mg/dL)</label>
+        <input type="number" name="chol" placeholder="e.g. 240">
+
+        <label>ECG Result (0–2)</label>
+        <input type="number" name="ecg" placeholder="e.g. 1">
+
+        <label>Maximum Heart Rate</label>
+        <input type="number" name="thalach" placeholder="e.g. 150">
+
+        <label>Exercise Induced Angina (Yes=1, No=0)</label>
+        <input type="number" name="exang" placeholder="e.g. 0">
+
+    {% else %}
+        <label>Blood Urea (mg/dL)</label>
+        <input type="number" name="urea" placeholder="e.g. 45">
+
+        <label>Creatinine (mg/dL)</label>
+        <input type="number" step="0.1" name="creatinine" placeholder="e.g. 1.8">
+
+        <label>Sodium (mEq/L)</label>
+        <input type="number" step="0.1" name="sodium" placeholder="e.g. 140">
+
+        <label>Potassium (mEq/L)</label>
+        <input type="number" step="0.1" name="potassium" placeholder="e.g. 4.5">
+
+        <label>Hemoglobin (g/dL)</label>
+        <input type="number" step="0.1" name="hemo" placeholder="e.g. 12.5">
+
+        <label>PCV (%)</label>
+        <input type="number" step="0.1" name="pcv" placeholder="e.g. 40">
+
+        <label>Sugar (Yes=1, No=0)</label>
+        <input type="number" name="sugar" placeholder="e.g. 0">
+
+        <label>Blood Pressure (mmHg)</label>
+        <input type="number" name="bp" placeholder="e.g. 130">
+
+        <label>Age</label>
+        <input type="number" name="age" placeholder="e.g. 45">
+    {% endif %}
+
+    <button type="submit">Predict Risk</button>
+</form>
+
+<div class="btn-group">
+    <a href="/"><button class="btn-secondary">🏠 Home</button></a>
+    <a href="/dashboard"><button class="btn-secondary">📊 Dashboard</button></a>
+</div>
+
+<p class="note">
+    ℹ️ Use recent medical reports for best prediction accuracy.
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Healthcare Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left,
+        .header-right {
+            width: 20%;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            justify-content: flex-start;
+        }
+
+        .header-right {
+            justify-content: flex-end;
+            gap: 20px;
+            position: relative;
+        }
+
+        .header-center {
+            text-align: center;
+            width: 60%;
+        }
+
+        .header-center h1 {
+            margin: 0;
+        }
+
+        .header-center p {
+            margin-top: 5px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .icon-btn:hover svg {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: white;
+            min-width: 170px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            overflow: hidden;
+            animation: fadeDropdown 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background: #f1f1f1;
+        }
+
+        @keyframes fadeDropdown {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            padding: 10px 18px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background: #3498db;
+            color: white;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .how-it-works {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .diseases {
+            display: flex;
+            justify-content: space-around;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+
+    
+    <div class="header-left">
+        <a href="/" class="icon-btn" title="Home">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 10.5L12 3l9 7.5"
+                      stroke="white"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M5 10v9h14v-9"
+                      stroke="white"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    
+    <div class="header-center">
+        <h1>Multi Disease Digital Screening System</h1>
+        <p>Welcome, {{ session["user_email"] }}</p>
+    </div>
+
+    
+    <div class="header-right">
+
+        
+        <a href="/account_history" class="icon-btn" title="Account History">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"/>
+                <path d="M12 7v5l3 2"
+                      stroke="white"
+                      stroke-width="2"
+                      fill="none"/>
+            </svg>
+        </a>
+
+        
+        <div class="icon-btn" onclick="toggleDropdown()" title="Profile">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"/>
+                <path d="M4 20c1.5-4 14.5-4 16 0"
+                      stroke="white"
+                      stroke-width="2"
+                      fill="none"/>
+            </svg>
+        </div>
+
+        
+        <div id="dropdownMenu" class="dropdown-content">
+            <a href="/profile">My Profile</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="section">
+        <h2>Start a Health Screening</h2>
+
+        <form action="/select_disease" method="post">
+            <div class="form-row">
+                <label><b>Select Disease:</b></label>
+
+                <select name="disease" required>
+                    <option value="diabetes">Diabetes</option>
+                    <option value="heart">Heart Disease</option>
+                    <option value="kidney">Kidney Disease</option>
+                </select>
+
+                <button type="submit">▶ Start Screening</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>How This System Works</h2>
+
+        <div class="how-it-works">
+            <div class="step">
+                <h3>1️⃣ Enter Values</h3>
+                <p>Provide recent medical test results</p>
+            </div>
+            <div class="step">
+                <h3>2️⃣ AI Prediction</h3>
+                <p>Machine learning model predicts health risk</p>
+            </div>
+            <div class="step">
+                <h3>3️⃣ Explainable AI</h3>
+                <p>SHAP explains why the prediction was made</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Supported Screenings</h2>
+
+        <div class="diseases">
+            <div>🩸 Diabetes</div>
+            <div>❤️ Heart Disease</div>
+            <div>🧪 Kidney Disease</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        ⚠ This system is an AI-based screening tool and does not replace medical diagnosis.
+    </div>
+
+</div>
+
+<script>
+function toggleDropdown() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+window.onclick = function(event) {
+    if (!event.target.closest('.header-right')) {
+        document.getElementById("dropdownMenu").style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>

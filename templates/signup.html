@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account | AI Healthcare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #0f4c75, #1b6ca8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-box {
+            background: white;
+            width: 420px;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0f4c75;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0f4c75;
+        }
+
+        .password-note {
+            font-size: 12px;
+            color: #777;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            font-size: 13px;
+            color: red;
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 11px;
+            background: #0f4c75;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #09324e;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #0f4c75;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="signup-box">
+
+    <h2>Create Your Account</h2>
+    <div class="subtitle">
+        Join our AI-powered healthcare screening platform
+    </div>
+
+    <form method="POST" action="/signup" onsubmit="return validatePasswords()">
+
+        <label>Email Address</label>
+        <input type="email" name="email" required placeholder="example@email.com">
+
+        <label>Password</label>
+        <input type="password" id="password" name="password"
+               required placeholder="Create a strong password">
+
+        <div class="password-note">
+            Password must be at least 8 characters and include uppercase,
+            lowercase, number, and special character.
+        </div>
+
+        <label>Confirm Password</label>
+        <input type="password" id="confirm_password"
+               required placeholder="Re-enter your password">
+
+        <div id="passwordError" class="error-message">
+            ❌ Passwords do not match.
+        </div>
+
+        <button type="submit">📝 Create Account</button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a href="/login">Login</a>
+    </div>
+
+    <div class="footer-note">
+        🔒 Your data is encrypted and securely stored.
+    </div>
+
+</div>
+
+<script>
+function validatePasswords() {
+    const pass = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm_password").value;
+    const error = document.getElementById("passwordError");
+
+    if (pass !== confirm) {
+        error.style.display = "block";
+        return false;
+    }
+
+    error.style.display = "none";
+    return true;
+}
+</script>
+
+</body>
+</html>
